@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-2.5.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<util:map id="neteasyFolderNameMap">
+		<!-- 收件箱 -->
+		<entry key="INBOX" value="1"/>
+		<!-- 订阅邮件 -->
+		<entry key="订阅邮件" value="2"/>
+		<!-- 垃圾邮件 -->
+		<entry key="垃圾邮件" value="3"/>
+	</util:map>
+	
+	<!-- 测试邮箱的帐号密码及host列表 -->
+	<util:list id="mailAccountList">
+		<!-- 126的10个测试邮箱 -->
+		<bean class="com.renren.mail.monitor.model.EmailAccount">
+			<constructor-arg index="0"><value>renrenmail001</value></constructor-arg>
+			<constructor-arg index="1"><value>renren.com</value></constructor-arg>
+			<constructor-arg index="2"><value>imap.126.com</value></constructor-arg>
+		</bean>
+		<bean class="com.renren.mail.monitor.model.EmailAccount">
+			<constructor-arg index="0"><value>renrenmail002</value></constructor-arg>
+			<constructor-arg index="1"><value>renren.com</value></constructor-arg>
+			<constructor-arg index="2"><value>imap.126.com</value></constructor-arg>
+		</bean>
+		<bean class="com.renren.mail.monitor.model.EmailAccount">
+			<constructor-arg index="0"><value>renrenmail003</value></constructor-arg>
+			<constructor-arg index="1"><value>renren.com</value></constructor-arg>
+			<constructor-arg index="2"><value>imap.126.com</value></constructor-arg>
+		</bean>
+		<bean class="com.renren.mail.monitor.model.EmailAccount">
+			<constructor-arg index="0"><value>renrenmail004</value></constructor-arg>
+			<constructor-arg index="1"><value>renren.com</value></constructor-arg>
+			<constructor-arg index="2"><value>imap.126.com</value></constructor-arg>
+		</bean>
+		<bean class="com.renren.mail.monitor.model.EmailAccount">
+			<constructor-arg index="0"><value>renrenmail005</value></constructor-arg>
+			<constructor-arg index="1"><value>renren.com</value></constructor-arg>
+			<constructor-arg index="2"><value>imap.126.com</value></constructor-arg>
+		</bean>
+		<bean class="com.renren.mail.monitor.model.EmailAccount">
+			<constructor-arg index="0"><value>renrenmail006</value></constructor-arg>
+			<constructor-arg index="1"><value>renren.com</value></constructor-arg>
+			<constructor-arg index="2"><value>imap.126.com</value></constructor-arg>
+		</bean>
+		<bean class="com.renren.mail.monitor.model.EmailAccount">
+			<constructor-arg index="0"><value>renrenmail007</value></constructor-arg>
+			<constructor-arg index="1"><value>renren.com</value></constructor-arg>
+			<constructor-arg index="2"><value>imap.126.com</value></constructor-arg>
+		</bean>
+		<bean class="com.renren.mail.monitor.model.EmailAccount">
+			<constructor-arg index="0"><value>renrenmail008</value></constructor-arg>
+			<constructor-arg index="1"><value>renren.com</value></constructor-arg>
+			<constructor-arg index="2"><value>imap.126.com</value></constructor-arg>
+		</bean>
+		<bean class="com.renren.mail.monitor.model.EmailAccount">
+			<constructor-arg index="0"><value>renrenmail009</value></constructor-arg>
+			<constructor-arg index="1"><value>renren.com</value></constructor-arg>
+			<constructor-arg index="2"><value>imap.126.com</value></constructor-arg>
+		</bean>
+		<bean class="com.renren.mail.monitor.model.EmailAccount">
+			<constructor-arg index="0"><value>renrenmail010</value></constructor-arg>
+			<constructor-arg index="1"><value>renren.com</value></constructor-arg>
+			<constructor-arg index="2"><value>imap.126.com</value></constructor-arg>
+		</bean>
+		
+		163的10个测试邮箱
+		<bean class="com.renren.mail.monitor.model.EmailAccount">
+			<constructor-arg index="0"><value>renrenmail001</value></constructor-arg>
+			<constructor-arg index="1"><value>renren.com</value></constructor-arg>
+			<constructor-arg index="2"><value>imap.163.com</value></constructor-arg>
+		</bean>
+		<bean class="com.renren.mail.monitor.model.EmailAccount">
+			<constructor-arg index="0"><value>renrenmail002</value></constructor-arg>
+			<constructor-arg index="1"><value>renren.com</value></constructor-arg>
+			<constructor-arg index="2"><value>imap.163.com</value></constructor-arg>
+		</bean>
+		<bean class="com.renren.mail.monitor.model.EmailAccount">
+			<constructor-arg index="0"><value>renrenmail003</value></constructor-arg>
+			<constructor-arg index="1"><value>renren.com</value></constructor-arg>
+			<constructor-arg index="2"><value>imap.163.com</value></constructor-arg>
+		</bean>
+		<bean class="com.renren.mail.monitor.model.EmailAccount">
+			<constructor-arg index="0"><value>renrenmail004</value></constructor-arg>
+			<constructor-arg index="1"><value>renren.com</value></constructor-arg>
+			<constructor-arg index="2"><value>imap.163.com</value></constructor-arg>
+		</bean>
+		<bean class="com.renren.mail.monitor.model.EmailAccount">
+			<constructor-arg index="0"><value>renrenmail005</value></constructor-arg>
+			<constructor-arg index="1"><value>renren.com</value></constructor-arg>
+			<constructor-arg index="2"><value>imap.163.com</value></constructor-arg>
+		</bean>
+		<bean class="com.renren.mail.monitor.model.EmailAccount">
+			<constructor-arg index="0"><value>renrenmail006</value></constructor-arg>
+			<constructor-arg index="1"><value>renren.com</value></constructor-arg>
+			<constructor-arg index="2"><value>imap.163.com</value></constructor-arg>
+		</bean>
+		<bean class="com.renren.mail.monitor.model.EmailAccount">
+			<constructor-arg index="0"><value>renrenmail007</value></constructor-arg>
+			<constructor-arg index="1"><value>renren.com</value></constructor-arg>
+			<constructor-arg index="2"><value>imap.163.com</value></constructor-arg>
+		</bean>
+		<bean class="com.renren.mail.monitor.model.EmailAccount">
+			<constructor-arg index="0"><value>renrenmail008</value></constructor-arg>
+			<constructor-arg index="1"><value>renren.com</value></constructor-arg>
+			<constructor-arg index="2"><value>imap.163.com</value></constructor-arg>
+		</bean>
+		<bean class="com.renren.mail.monitor.model.EmailAccount">
+			<constructor-arg index="0"><value>renrenmail009</value></constructor-arg>
+			<constructor-arg index="1"><value>renren.com</value></constructor-arg>
+			<constructor-arg index="2"><value>imap.163.com</value></constructor-arg>
+		</bean>
+		<bean class="com.renren.mail.monitor.model.EmailAccount">
+			<constructor-arg index="0"><value>renrenmail010</value></constructor-arg>
+			<constructor-arg index="1"><value>renren.com</value></constructor-arg>
+			<constructor-arg index="2"><value>imap.163.com</value></constructor-arg>
+		</bean>
+	</util:list>
+	
+	
+	<!-- 需要检测的发件人的邮箱的列表 -->	
+	<util:list id="senderDomainList">
+		<value>@xiaonei.com</value>
+		<value>@xiaonei-inc.com</value>
+		<value>@xnimg.cn</value>
+		<value>@rrimg.com</value>
+		<value>@xnpic.com</value>
+		<value>@rrfmn.com</value>
+		<value>@5q.com</value>
+		<value>@iweidu.com</value>
+		<value>@renrenos.com</value>
+		<value>@renrenplatform.com</value>
+		<value>@tongxueshuo.com</value>
+		<value>@tongxueshuo.net</value>
+	</util:list>
+	
+</beans>
