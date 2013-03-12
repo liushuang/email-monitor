@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -21,8 +22,10 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.renren.mail.monitor.dao.EmailMonitorRecordDAO;
 import com.renren.mail.monitor.model.DiscResult;
 import com.renren.mail.monitor.model.OneDayReport;
 import com.renren.mail.monitor.model.OneHourReport;
@@ -30,8 +33,11 @@ import com.renren.mail.monitor.model.OneHourReport;
 @Service
 public class EmailSenderImpl implements IEmailSender {
 
+    @Autowired
+    private EmailMonitorRecordDAO emailMonitorRecordDAO;
+
     @Override
-    public void send() {
+    public void sendDailyEmail() {
         List<String> reportPersonList = getReportPersonList();
         OneDayReport report = getOneDayReport();
         sendEmail(reportPersonList, report);
@@ -43,7 +49,8 @@ public class EmailSenderImpl implements IEmailSender {
      * @return
      */
     private OneDayReport getOneDayReport() {
-        return new OneDayReport();
+        OneDayReport oneDayReport = new OneDayReport();
+        return oneDayReport;
     }
 
     /**
@@ -67,7 +74,7 @@ public class EmailSenderImpl implements IEmailSender {
         return addressList;
     }
 
-    public void sendEmail(List<String> receverList, OneDayReport report) {
+    private void sendEmail(List<String> receverList, OneDayReport report) {
         try {
             if (receverList != null) {
                 SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy年MM月dd日");
@@ -121,45 +128,74 @@ public class EmailSenderImpl implements IEmailSender {
         }
     }
 
-    public String getEmailContent(OneDayReport report) {
+    private String getEmailContent(OneDayReport report) {
         StringBuilder sb = new StringBuilder();
-        
+
         sb.append("<table style=\"border-collapse: separate; border-radius: 4px 4px 4px 4px; border:1px solid #DDDDDD; border-left: none; border-top: none;\" >");
         sb.append("<thead>");
         sb.append("<tr>");
-        sb.append("<th style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\">").append("时间").append("</th>");
-        sb.append("<th style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\">").append("disc_id").append("</th>");
-        sb.append("<th style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >").append("总邮件数").append("</th>");
-        sb.append("<th style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >").append("收件箱数").append("</th>");
-        sb.append("<th style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >").append("订阅邮件数").append("</th>");
-        sb.append("<th style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >").append("垃圾邮件数").append("</th>");
-        sb.append("<th style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >").append("收件箱率").append("</th>");
-        sb.append("<th style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >").append("订阅邮件率").append("</th>");
-        sb.append("<th style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >").append("垃圾邮件率").append("</th>");
+        sb.append("<th style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\">")
+                .append("时间").append("</th>");
+        sb.append("<th style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\">")
+                .append("disc_id").append("</th>");
+        sb.append("<th style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >")
+                .append("总邮件数").append("</th>");
+        sb.append("<th style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >")
+                .append("收件箱数").append("</th>");
+        sb.append("<th style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >")
+                .append("订阅邮件数").append("</th>");
+        sb.append("<th style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >")
+                .append("垃圾邮件数").append("</th>");
+        sb.append("<th style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >")
+                .append("收件箱率").append("</th>");
+        sb.append("<th style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >")
+                .append("订阅邮件率").append("</th>");
+        sb.append("<th style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >")
+                .append("垃圾邮件率").append("</th>");
         sb.append("</tr>");
         sb.append("</thead>");
-        
+
         boolean isodd = true;
-        for(OneHourReport oneHourReport : report.getOneHourReportList()){
+        for (OneHourReport oneHourReport : report.getOneHourReportList()) {
             sb.append("<tr style=\"background-color:#3A87AD;\">");
-            sb.append("<td style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" colspan='9'>").append(oneHourReport.getTime()).append("</td>");
+            sb.append(
+                    "<td style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" colspan='9'>")
+                    .append(oneHourReport.getTime()).append("</td>");
             sb.append("</tr>");
             isodd = !isodd;
-            for(DiscResult discResult : oneHourReport.getDiscResultList()){
-                if(isodd){
+            for (DiscResult discResult : oneHourReport.getDiscResultList()) {
+                if (isodd) {
                     sb.append("<tr style=\"background-color: #F9F9F9;\">");
-                }else{
+                } else {
                     sb.append("<tr>");
                 }
-                sb.append("<td style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >").append(oneHourReport.getTime()).append("</td>");
-                sb.append("<td style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >").append(discResult.getDiscid()).append("</td>");
-                sb.append("<td style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >").append(discResult.getTotalCount()).append("</td>");
-                sb.append("<td style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >").append(discResult.getInboxCount()).append("</td>");
-                sb.append("<td style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >").append(discResult.getDingyueCount()).append("</td>");
-                sb.append("<td style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >").append(discResult.getGarbageCount()).append("</td>");
-                sb.append("<td style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >").append(String.format("%.3f", discResult.getInboxRate())).append("</td>");
-                sb.append("<td style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >").append(String.format("%.3f", discResult.getDingyueRate())).append("</td>");
-                sb.append("<td style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >").append(String.format("%.3f", discResult.getGarbageRate())).append("</td>");
+                sb.append(
+                        "<td style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >")
+                        .append(oneHourReport.getTime()).append("</td>");
+                sb.append(
+                        "<td style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >")
+                        .append(discResult.getDiscid()).append("</td>");
+                sb.append(
+                        "<td style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >")
+                        .append(discResult.getTotalCount()).append("</td>");
+                sb.append(
+                        "<td style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >")
+                        .append(discResult.getInboxCount()).append("</td>");
+                sb.append(
+                        "<td style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >")
+                        .append(discResult.getDingyueCount()).append("</td>");
+                sb.append(
+                        "<td style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >")
+                        .append(discResult.getGarbageCount()).append("</td>");
+                sb.append(
+                        "<td style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >")
+                        .append(String.format("%.3f", discResult.getInboxRate())).append("</td>");
+                sb.append(
+                        "<td style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >")
+                        .append(String.format("%.3f", discResult.getDingyueRate())).append("</td>");
+                sb.append(
+                        "<td style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >")
+                        .append(String.format("%.3f", discResult.getGarbageRate())).append("</td>");
                 sb.append("</tr>");
             }
         }
@@ -167,10 +203,41 @@ public class EmailSenderImpl implements IEmailSender {
         return sb.toString();
     }
 
+    private OneHourReport makeOneHourReport(Date startDate) {
+        OneHourReport oneHourReport = new OneHourReport();
+        Calendar startCalendar = Calendar.getInstance();
+        startCalendar.setTime(startDate);
+        startCalendar.add(Calendar.HOUR, 1);
+        Date endDate = startCalendar.getTime();
+        List<Integer> discidList = emailMonitorRecordDAO
+                .selectSubjectListByDate(startDate, endDate);
+        for (int discid : discidList) {
+            int inboxCount = emailMonitorRecordDAO.selectCountBySendDateAndFolderAndDiscid(
+                    startDate, endDate, 1, discid);
+            int dingyueCount = emailMonitorRecordDAO.selectCountBySendDateAndFolderAndDiscid(
+                    startDate, endDate, 2, discid);
+            int garbageCount = emailMonitorRecordDAO.selectCountBySendDateAndFolderAndDiscid(
+                    startDate, endDate, 3, discid);
+            DiscResult discResult = new DiscResult(discid);
+            discResult.setInboxCount(inboxCount);
+            discResult.setDingyueCount(dingyueCount);
+            discResult.setGarbageCount(garbageCount);
+            oneHourReport.addDiscResult(discResult);
+        }
+        return oneHourReport;
+    }
+
     public static void main(String[] args) {
-        EmailSenderImpl emailSenderImpl = new EmailSenderImpl();
-        emailSenderImpl.send();
-        System.out.println("succeed");
+        //        EmailSenderImpl emailSenderImpl = new EmailSenderImpl();
+        //        emailSenderImpl.send();
+        //        System.out.println("succeed");
+        //        emailSenderImpl.makeOneHourReport(Calendar.getInstance().getTime());
+    }
+
+    @Override
+    public void sendHourlyEmail() {
+        // TODO Auto-generated method stub
+        
     }
 
 }

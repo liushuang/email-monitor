@@ -32,6 +32,8 @@ public class EmailMonitorRecord {
 
     private Date checkDate;
 
+    private String senderIp;
+
     public int getId() {
         return id;
     }
@@ -118,5 +120,13 @@ public class EmailMonitorRecord {
 
     public void setCheckDate(Date checkDate) {
         this.checkDate = checkDate;
+    }
+
+    public String getSenderIp() {
+        return senderIp;
+    }
+
+    public void setSenderIp(String senderIp) {
+        this.senderIp = senderIp;
     }
 }

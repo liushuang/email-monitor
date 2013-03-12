@@ -1,10 +1,15 @@
 package com.renren.mail.monitor.recever;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 
+import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Store;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -39,7 +44,7 @@ public class NeteasyEmailRecever extends BaseEmailRecever {
 			String from = msg.getFrom()[0].toString();
 			int start = from.indexOf("?B?") + 3;
 			int end = from.indexOf("?=");
-			if(start < 0 || end < 0 || start < end){
+			if(start < 0 || end < 0 || start > end){
 			    return "unknown";
 			}
 			String author = from.substring(start, end);
@@ -153,6 +158,5 @@ public class NeteasyEmailRecever extends BaseEmailRecever {
             return null;
         }
     }
-	
-	
+
 }

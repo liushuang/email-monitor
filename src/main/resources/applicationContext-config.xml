@@ -74,8 +74,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 			<constructor-arg index="2"><value>imap.126.com</value></constructor-arg>
 		</bean>
 		
-		163的10个测试邮箱
-		<bean class="com.renren.mail.monitor.model.EmailAccount">
+		<!-- 163的10个测试邮箱 -->
+ 		<bean class="com.renren.mail.monitor.model.EmailAccount">
 			<constructor-arg index="0"><value>renrenmail001</value></constructor-arg>
 			<constructor-arg index="1"><value>renren.com</value></constructor-arg>
 			<constructor-arg index="2"><value>imap.163.com</value></constructor-arg>

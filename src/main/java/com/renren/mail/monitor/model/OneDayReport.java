@@ -27,12 +27,13 @@ public class OneDayReport {
     private BufferedReader reader = null;
 
     public OneDayReport() {
-        String yesterdayStr = getYesterdayString();
-        getYesterdatResultFileReader(yesterdayStr);
-        readResultFile();
-        closeReader();
+//        String yesterdayStr = getYesterdayString();
+//        getYesterdatResultFileReader(yesterdayStr);
+//        readResultFile();
+//        closeReader();
     }
 
+    @SuppressWarnings("unused")
     private void readResultFile() {
         if (reader != null) {
             String tempString = null;
@@ -72,6 +73,7 @@ public class OneDayReport {
      * 
      * @return
      */
+    @SuppressWarnings("unused")
     private String getYesterdayString() {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -1);
@@ -80,6 +82,7 @@ public class OneDayReport {
         return sdf.format(yesterday);
     }
 
+    @SuppressWarnings("unused")
     private void getYesterdatResultFileReader(String yesterdayStr) {
         String fileName = "/data/web/liushuang/email-monitor/logs/result_" + yesterdayStr + ".txt";
         File file = new File(fileName);
@@ -90,6 +93,7 @@ public class OneDayReport {
         }
     }
 
+    @SuppressWarnings("unused")
     private void closeReader() {
         if (reader != null) {
             try {

@@ -14,7 +14,6 @@ public class EmailSenderJob extends QuartzJobBean{
     
     private IEmailSender emailSenderImpl;
     
-    
     public void setEmailSenderImpl(IEmailSender emailSenderImpl) {
         this.emailSenderImpl = emailSenderImpl;
     }
@@ -22,7 +21,7 @@ public class EmailSenderJob extends QuartzJobBean{
     @Override
     protected void executeInternal(JobExecutionContext arg0) throws JobExecutionException {
         logger.error("start sending email");
-        emailSenderImpl.send();
+        emailSenderImpl.sendDailyEmail();
         logger.error("end sending email");
     }
 

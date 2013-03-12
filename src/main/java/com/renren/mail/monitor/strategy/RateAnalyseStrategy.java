@@ -211,6 +211,7 @@ public class RateAnalyseStrategy implements IEmailAnalyseStrategy {
         emailMonitorRecord.setReceverEmail(neteasyEmailRecever.getReceverEmail(message));
         emailMonitorRecord.setSendDate(neteasyEmailRecever.getSendDate(message));
         emailMonitorRecord.setCheckDate(Calendar.getInstance().getTime());
+        emailMonitorRecord.setSenderIp(neteasyEmailRecever.getSenderIp(message));
 
         return emailMonitorRecord;
     }
