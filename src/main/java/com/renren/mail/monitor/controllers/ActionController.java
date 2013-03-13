@@ -1,8 +1,5 @@
 package com.renren.mail.monitor.controllers;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import net.paoding.rose.web.annotation.Param;
 import net.paoding.rose.web.annotation.Path;
 import net.paoding.rose.web.annotation.rest.Get;
@@ -19,11 +16,6 @@ public class ActionController  {
 
     private Log logger = LogFactory.getLog(getClass());
     
-    private Timer timer;
-    
-    @Autowired
-    private TimerTask neteasyTask;
-
     @Autowired
     private ChangeDisc changeDisc;
 
@@ -44,14 +36,11 @@ public class ActionController  {
 
     @Get("start")
     public String start() {
-        timer = new Timer();
-        timer.schedule(neteasyTask, 0, 3600000);
         return "@started";
     }
 
     @Get("stop")
     public String stop() {
-        timer.cancel();
         return "@stopped";
     }
 

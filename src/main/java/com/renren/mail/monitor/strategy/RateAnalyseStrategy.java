@@ -52,7 +52,8 @@ public class RateAnalyseStrategy implements IEmailAnalyseStrategy {
             makeReceiveResultMap(dingyueMessages, resultMap, "订阅邮件");
             makeReceiveResultMap(garbageMessages, resultMap, "垃圾邮件");
             autoChangeDiscId(resultMap);
-            recordResultLog(resultMap);
+            // 不再按照小时进行记录了
+            // recordResultLog(resultMap);
         } catch (MessagingException e) {
             logger.error("分析邮件错误", e);
         }
@@ -158,6 +159,7 @@ public class RateAnalyseStrategy implements IEmailAnalyseStrategy {
      * 
      * @param logText
      */
+    @SuppressWarnings("unused")
     private void recordResultLog(Map<Integer, DiscResult> resultMap) {
 
         if (resultMap.size() > 0) {

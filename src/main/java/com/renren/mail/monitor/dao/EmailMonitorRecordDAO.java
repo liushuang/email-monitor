@@ -86,6 +86,7 @@ public interface EmailMonitorRecordDAO {
     @SQL("select distinct(recever_domain) from email_monitor_record where send_date between :startDate and :endDate ")
     public List<String> selectReceverDomainListByDate(@SQLParam("startDate") Date startDate,
             @SQLParam("endDate") Date endDate);
+
     /**
      * 根据发送邮件的开始和结束时间以及收件箱获取邮件数目
      * 
@@ -155,6 +156,25 @@ public interface EmailMonitorRecordDAO {
      */
     @SQL("select count(1) from email_monitor_record where send_date between :startDate and :endDate "
             + " and sender_domain = :senderDomain")
-    public int selectCountBySendDateANdSenderDomain(@SQLParam("startDate") Date startDate,
+    public int selectCountBySendDateAndSenderDomain(@SQLParam("startDate") Date startDate,
             @SQLParam("endDate") Date endDate, @SQLParam("senderDomain") String senderDomain);
+
+    /**
+     * 根据发件时间、收件箱、模板号、发送域名和接受域名获取邮件数量
+     * 
+     * @param startDate 开始时间
+     * @param endDate 结束时间
+     * @param folder 收件箱
+     * @param discid 模板号
+     * @param senderDomain 发件人域名
+     * @param receverDomain 收件人域名
+     * @return 邮件数量
+     */
+    @SQL("select count(1) from email_monitor_record where send_date between :startDate and :endDate "
+            + "and folder =:folder and subject = :discid and sender_domain = :senderDomain and recever_domain =:receverDomain")
+    public int selectCountByDateAndFolderAndDiscidAndSenderDomainAndReceverDomain(
+            @SQLParam("startDate") Date startDate, @SQLParam("endDate") Date endDate,
+            @SQLParam("folder") int folder, @SQLParam("discid") int discId,
+            @SQLParam("senderDomain") String senderDomain,
+            @SQLParam("receverDomain") String receverDomain);
 }

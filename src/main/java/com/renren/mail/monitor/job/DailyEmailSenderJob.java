@@ -6,29 +6,28 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
-import com.renren.mail.monitor.email.IEmail;
+import com.renren.mail.monitor.sender.IEmailSender;
 
 /**
- * 定时收取邮件的job
+ * 每天定时发送邮件的job
  *
  * @author liushuang
- * @creation_date 2013-3-07
+ * @creation_date 2013-3-12
  */
-public class NeteasyReceverJob extends QuartzJobBean {
-
+public class DailyEmailSenderJob extends QuartzJobBean{
     private Log logger = LogFactory.getLog(getClass());
     
-    private IEmail neteasyEmail ;
+    private IEmailSender emailSenderImpl;
     
-    public void setNeteasyEmail(IEmail neteasyEmail) {
-        this.neteasyEmail = neteasyEmail;
+    public void setEmailSenderImpl(IEmailSender emailSenderImpl) {
+        this.emailSenderImpl = emailSenderImpl;
     }
 
     @Override
     protected void executeInternal(JobExecutionContext arg0) throws JobExecutionException {
-        logger.error("starting NeteasyTask");
-        neteasyEmail.startAnalyse();
-        logger.error("finished NeteasyTask");
+        logger.error("start sending daily email");
+        emailSenderImpl.sendDailyEmail();
+        logger.error("end sending daily email");
     }
 
 }

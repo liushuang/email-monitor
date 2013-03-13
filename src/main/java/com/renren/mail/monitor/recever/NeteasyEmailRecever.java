@@ -1,15 +1,10 @@
 package com.renren.mail.monitor.recever;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Properties;
 
-import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Store;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

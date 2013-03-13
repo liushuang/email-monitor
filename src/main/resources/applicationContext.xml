@@ -17,7 +17,8 @@
    		<property name="triggers">
    			<list>
    				<ref bean="neteasyCronTrigger"/>
-   				<ref bean="emailSenderCronTrigger"/>
+   				<ref bean="hourlyEmailSenderCronTrigger"/>
+   				<ref bean="dailyEmailSenderCronTrigger"/>
    			</list>
    		</property>
    	</bean>
@@ -36,12 +37,12 @@
     </bean>
     <bean id="neteasyCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
     	<property name="jobDetail" ref="neteasyReceverJob"></property>
-    	<property name="cronExpression" value="0 0 * * * ?"></property>
+    	<property name="cronExpression" value="0 */5 * * * ?"></property>
     </bean>
     
-    <!-- 发送邮件的定时任务 -->
-    <bean name="emailSenderJob" class="org.springframework.scheduling.quartz.JobDetailBean">
-    	<property name="jobClass" value="com.renren.mail.monitor.job.EmailSenderJob"></property>
+    <!-- 每小时发送邮件的定时任务 -->
+    <bean name="hourlyEmailSenderJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+    	<property name="jobClass" value="com.renren.mail.monitor.job.HourlyEmailSenderJob"></property>
     	<property name="jobDataAsMap">
     		<map>
     			<entry key="emailSenderImpl">
@@ -50,9 +51,25 @@
     		</map>
     	</property>
     </bean>
-    <bean id="emailSenderCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
-    	<property name="jobDetail" ref="emailSenderJob"></property>
-    	<property name="cronExpression" value="*/10 * * * * ?"></property>
+    <bean id="hourlyEmailSenderCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+    	<property name="jobDetail" ref="hourlyEmailSenderJob"></property>
+    	<property name="cronExpression" value="0 0 * * * ?"></property>
+    </bean>
+    
+    <!-- 每天发送邮件的定时任务 -->
+    <bean name="dailyEmailSenderJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+    	<property name="jobClass" value="com.renren.mail.monitor.job.DailyEmailSenderJob"></property>
+    	<property name="jobDataAsMap">
+    		<map>
+    			<entry key="emailSenderImpl">
+    				<ref bean="emailSenderImpl"></ref>
+    			</entry>
+    		</map>
+    	</property>
+    </bean>
+    <bean id="dailyEmailSenderCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+    	<property name="jobDetail" ref="dailyEmailSenderJob"></property>
+    	<property name="cronExpression" value="0 0 1 * * ?"></property>
     </bean>
     
     <bean id="emailSenderImpl" class="com.renren.mail.monitor.sender.EmailSenderImpl"></bean>
