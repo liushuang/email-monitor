@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import com.renren.mail.monitor.sender.IEmailSender;
@@ -17,11 +18,8 @@ import com.renren.mail.monitor.sender.IEmailSender;
 public class DailyEmailSenderJob extends QuartzJobBean{
     private Log logger = LogFactory.getLog(getClass());
     
+    @Autowired
     private IEmailSender emailSenderImpl;
-    
-    public void setEmailSenderImpl(IEmailSender emailSenderImpl) {
-        this.emailSenderImpl = emailSenderImpl;
-    }
 
     @Override
     protected void executeInternal(JobExecutionContext arg0) throws JobExecutionException {

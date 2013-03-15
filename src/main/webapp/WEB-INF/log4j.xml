@@ -2,6 +2,7 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 	
+	<!-- 标准输出，输出到控制台 -->
 	<appender name="stdout" class="org.apache.log4j.ConsoleAppender">
 		<param name="Target" value="System.out"/>
 		<layout class="org.apache.log4j.PatternLayout">
@@ -9,6 +10,20 @@
 		</layout>
 	</appender>	
 	
+	<appender name="actionAppender" class="org.apache.log4j.DailyRollingFileAppender">
+	    <param name="File" value="/data/web/liushuang/email-monitor/logs/action.log"/>
+	       <param name="DatePattern" value="'_'yyyy-MM-dd"/>
+	      <layout class="org.apache.log4j.PatternLayout">
+	          <param name="ConversionPattern" value="%d{yyyy-MM-dd-HH:mm:ss} %m %n"/>
+	      </layout>
+	</appender>
+	
+	<!-- 记录操作的log -->
+	<logger name="com.renren.mail.monitor.logger.EmailLogger" additivity="false">
+        <level value="info"/>
+        <appender-ref ref="actionAppender"/>
+    </logger>
+    
 	<root>
 		<level value="error"/>
 		<appender-ref ref="stdout"/>

@@ -23,7 +23,6 @@
    		</property>
    	</bean>
    	
-   	
     <!-- 接受邮件的定时任务 -->   
     <bean name="neteasyReceverJob" class="org.springframework.scheduling.quartz.JobDetailBean">
     	<property name="jobClass" value="com.renren.mail.monitor.job.NeteasyReceverJob"></property>
@@ -53,7 +52,7 @@
     </bean>
     <bean id="hourlyEmailSenderCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
     	<property name="jobDetail" ref="hourlyEmailSenderJob"></property>
-    	<property name="cronExpression" value="0 0 * * * ?"></property>
+    	<property name="cronExpression" value="0 5 * * * ?"></property>
     </bean>
     
     <!-- 每天发送邮件的定时任务 -->
@@ -72,14 +71,10 @@
     	<property name="cronExpression" value="0 0 1 * * ?"></property>
     </bean>
     
-    <bean id="emailSenderImpl" class="com.renren.mail.monitor.sender.EmailSenderImpl"></bean>
-    <bean id="neteasyTask" class="com.renren.mail.monitor.task.NeteasyTask"></bean>
-    <bean id="rateAnalyseStrategy" class="com.renren.mail.monitor.strategy.RateAnalyseStrategy">
+    <!-- 网易邮件 -->
+    <bean id="neteasyEmail" class="com.renren.mail.monitor.email.NeteasyEmail">
+    	<property name="mailAccountList" ref="mailAccountList"></property>
     	<property name="senderDomainList" ref="senderDomainList" />
     </bean>
-    <bean id="neteasyEmail" class="com.renren.mail.monitor.email.NeteasyEmail">
-    	<property name="rateAnalyseStrategy" ref="rateAnalyseStrategy"></property>
-    	<property name="mailAccountList" ref="mailAccountList"></property>
-    </bean>
-    <bean id="neteasyEmailRecever" class="com.renren.mail.monitor.recever.NeteasyEmailRecever"></bean>
+    
 </beans>

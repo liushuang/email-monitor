@@ -26,9 +26,9 @@ public class NeteasyReceverJob extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext arg0) throws JobExecutionException {
-        logger.error("starting NeteasyTask");
-        neteasyEmail.startAnalyse();
-        logger.error("finished NeteasyTask");
+        logger.error("starting reciving neteasy email");
+        neteasyEmail.startRecive();
+        logger.error("finished reciving neteasy email");
     }
 
 }

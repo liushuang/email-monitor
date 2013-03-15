@@ -2,5 +2,8 @@ package com.renren.mail.monitor.email;
 
 
 public interface IEmail {
-    public void startAnalyse();
+    /**
+     * 开始接受邮件
+     */
+    public void startRecive();
 }

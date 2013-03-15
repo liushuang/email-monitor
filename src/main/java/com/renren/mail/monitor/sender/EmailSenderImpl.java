@@ -156,10 +156,10 @@ public class EmailSenderImpl implements IEmailSender {
                     .append("DiscId").append("</th>");
             sb.append(
                     "<th style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\">")
-                    .append("SenderDomain").append("</th>");
+                    .append("发件人域名").append("</th>");
             sb.append(
                     "<th style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\">")
-                    .append("ReceverDomain").append("</th>");
+                    .append("收件人域名").append("</th>");
             sb.append(
                     "<th style=\"border-left: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;\" >")
                     .append("总邮件数").append("</th>");

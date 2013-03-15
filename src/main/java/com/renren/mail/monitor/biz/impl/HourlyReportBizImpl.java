@@ -17,7 +17,7 @@ import com.renren.mail.monitor.model.DetailReport;
 import com.renren.mail.monitor.model.ReportTable;
 
 /**
- * 用于组装24小时的报告
+ * 用于组装每小时发送的报告
  * 
  * @author liushuang
  * 
@@ -33,15 +33,15 @@ public class HourlyReportBizImpl implements HourlyReportBiz {
     @Override
     public Report getHourlyReport() {
         Report report = new Report();
-        Date startDate = get24hBeforeDate();
+        Date startDate = get3hBeforeDate();
         Date endDate = getCurrentDate();
-        // 获取最近24小时的discid
+        // 获取最近3小时的discid
         List<Integer> discIdList = emailMonitorRecordDAO
                 .selectSubjectListByDate(startDate, endDate);
-        // 获取最近24小时的senderDomain
+        // 获取最近3小时的senderDomain
         List<String> senderDomainList = emailMonitorRecordDAO.selectSenderDomainListByDate(
                 startDate, endDate);
-        // 获取最近24小时的receverDomain
+        // 获取最近3小时的receverDomain
         List<String> receverDomainList = emailMonitorRecordDAO.selectReceverDomainListByDate(
                 startDate, endDate);
 
@@ -69,10 +69,10 @@ public class HourlyReportBizImpl implements HourlyReportBiz {
      */
     private ReportTable makeReportTable(int discId, String senderDomain, String receverDomain) {
         ReportTable reportTable = new ReportTable(discId, receverDomain, receverDomain);
-        Date startDate = get24hBeforeDate();
+        Date startDate = get3hBeforeDate();
         Date endDate = getOneHourAfterDate(startDate);
-        // 对24个小时分别进行统计
-        for (int i = 0; i < 24; i++) {
+        // 对3个小时分别进行统计
+        for (int i = 0; i < 3; i++) {
             DetailReport oneHourReport = makeOneHourReport(startDate, endDate, discId, senderDomain, receverDomain);
             reportTable.addOneHourReport(oneHourReport);
             startDate = getOneHourAfterDate(startDate);
@@ -125,16 +125,16 @@ public class HourlyReportBizImpl implements HourlyReportBiz {
     }
 
     /**
-     * 获取24小时之前的时间
+     * 获取3小时之前的时间
      * 
-     * @return 24小时之前的之间
+     * @return 3小时之前的之间
      */
-    private Date get24hBeforeDate() {
+    private Date get3hBeforeDate() {
         Calendar tempCalendar = Calendar.getInstance();
         tempCalendar.set(Calendar.MINUTE, 0);
         tempCalendar.set(Calendar.SECOND, 0);
         tempCalendar.set(Calendar.MILLISECOND, 0);
-        tempCalendar.add(Calendar.HOUR, -24);
+        tempCalendar.add(Calendar.HOUR, -3);
         return tempCalendar.getTime();
     }
 
